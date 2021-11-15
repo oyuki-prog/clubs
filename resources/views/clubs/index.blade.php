@@ -7,6 +7,7 @@
                     <a href="{{ route('clubs.plans.index', [$club , Date('Y'), Date('m')]) }}">{{ $club->name }}</a>
                 </p>
             @endforeach
+            <a href="{{ route('clubs.create') }}">チームを作る</a>
         </div>
     </div>
 </x-app-layout>

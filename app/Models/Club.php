@@ -13,6 +13,11 @@ class Club extends Model
     use HasFactory;
 
     public $timestamps = false;
+    protected $fillable = [
+        'name',
+        'unique_name',
+        'password',
+    ];
 
     public function clubRoles() {
         return $this->hasMany(ClubRole::class);
@@ -33,12 +38,12 @@ class Club extends Model
 
     public function leader() {
         foreach ($this->clubRoles as $clubRole) {
-            if ($clubRole->role_number == 1) {
+            if ($clubRole->role_number == config('const.adminNum')) {
                 $leaderId = $clubRole->id;
             }
         }
 
-        $userRole = UserRole::find($leaderId);
+        $userRole = userRole::where('club_role_id', $leaderId)->firstOrFail();;
         $leader = User::find($userRole->user_id);
         return $leader->name;
     }

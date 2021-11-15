@@ -234,4 +234,5 @@ return [
 
     ],
 
+    'adminNumber' => 1
 ];
