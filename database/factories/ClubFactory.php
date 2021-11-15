@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ClubFactory extends Factory
@@ -14,7 +15,9 @@ class ClubFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'unique_name' => $this->faker->unique()->word(),
+            'name' => $this->faker->company(),
+            'password' => 'password',
         ];
     }
 }

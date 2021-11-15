@@ -2,9 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\ClubRole;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ChatFactory extends Factory
+class UserRoleFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -14,7 +16,9 @@ class ChatFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'user_id' => User::inRandomOrder()->first(),
+            'club_role_id' => ClubRole::inRandomOrder()->first(),
+            
         ];
     }
 }

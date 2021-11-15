@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class RoleFactory extends Factory
+class DisclosureRangeFactory extends Factory
 {
     /**
      * Define the model's default state.

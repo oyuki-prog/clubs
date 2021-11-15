@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePlansTable extends Migration
+class CreateDisclosureRangesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,16 @@ class CreatePlansTable extends Migration
      */
     public function up()
     {
-        Schema::create('plans', function (Blueprint $table) {
+        Schema::create('disclosure_ranges', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('club_id')
+            $table->foreignId('plan_id')
                 ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
-            $table->string('name');
-            $table->timestamp('meeting_time');
-            $table->timestamp('dissolution_time');
-            $table->string('place');
-            $table->text('remarks')->nullable();
-            $table->timestamps();
+            $table->foreignId('club_role_id')
+                ->constrained()
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
         });
     }
 
@@ -35,6 +33,6 @@ class CreatePlansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('plans');
+        Schema::dropIfExists('disclosure_ranges');
     }
 }

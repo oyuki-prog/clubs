@@ -58,4 +58,17 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function userRoles() {
+        return $this->hasMany(UserRole::class);
+    }
+
+    public function clubs() {
+        $clubs = [];
+        foreach ($this->userRoles as $userRole) {
+            array_push($clubs, $userRole->clubRole->club);
+        }
+
+        return $clubs;
+    }
 }

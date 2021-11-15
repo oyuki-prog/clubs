@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Member;
 use App\Models\User;
+use App\Models\UserRole;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class MemberPolicy
+class UserRolePolicy
 {
     use HandlesAuthorization;
 
@@ -25,10 +25,10 @@ class MemberPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Member  $member
+     * @param  \App\Models\UserRole  $userRole
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Member $member)
+    public function view(User $user, UserRole $userRole)
     {
         //
     }
@@ -48,10 +48,10 @@ class MemberPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Member  $member
+     * @param  \App\Models\UserRole  $userRole
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Member $member)
+    public function update(User $user, UserRole $userRole)
     {
         //
     }
@@ -60,10 +60,10 @@ class MemberPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Member  $member
+     * @param  \App\Models\UserRole  $userRole
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Member $member)
+    public function delete(User $user, UserRole $userRole)
     {
         //
     }
@@ -72,10 +72,10 @@ class MemberPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Member  $member
+     * @param  \App\Models\UserRole  $userRole
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Member $member)
+    public function restore(User $user, UserRole $userRole)
     {
         //
     }
@@ -84,10 +84,10 @@ class MemberPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Member  $member
+     * @param  \App\Models\UserRole  $userRole
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Member $member)
+    public function forceDelete(User $user, UserRole $userRole)
     {
         //
     }

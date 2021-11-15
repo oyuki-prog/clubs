@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Chat;
+use App\Models\Thread;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ChatPolicy
+class ThreadPolicy
 {
     use HandlesAuthorization;
 
@@ -25,10 +25,10 @@ class ChatPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Chat  $chat
+     * @param  \App\Models\Thread  $thread
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Chat $chat)
+    public function view(User $user, Thread $thread)
     {
         //
     }
@@ -48,10 +48,10 @@ class ChatPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Chat  $chat
+     * @param  \App\Models\Thread  $thread
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Chat $chat)
+    public function update(User $user, Thread $thread)
     {
         //
     }
@@ -60,10 +60,10 @@ class ChatPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Chat  $chat
+     * @param  \App\Models\Thread  $thread
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Chat $chat)
+    public function delete(User $user, Thread $thread)
     {
         //
     }
@@ -72,10 +72,10 @@ class ChatPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Chat  $chat
+     * @param  \App\Models\Thread  $thread
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Chat $chat)
+    public function restore(User $user, Thread $thread)
     {
         //
     }
@@ -84,10 +84,10 @@ class ChatPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Chat  $chat
+     * @param  \App\Models\Thread  $thread
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Chat $chat)
+    public function forceDelete(User $user, Thread $thread)
     {
         //
     }

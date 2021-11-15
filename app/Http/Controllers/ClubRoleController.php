@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Room;
+use App\Models\ClubRole;
 use Illuminate\Http\Request;
 
-class RoomController extends Controller
+class ClubRoleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class RoomController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Room  $room
+     * @param  \App\Models\ClubRole  $clubRole
      * @return \Illuminate\Http\Response
      */
-    public function show(Room $room)
+    public function show(ClubRole $clubRole)
     {
         //
     }
@@ -52,10 +52,10 @@ class RoomController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Room  $room
+     * @param  \App\Models\ClubRole  $clubRole
      * @return \Illuminate\Http\Response
      */
-    public function edit(Room $room)
+    public function edit(ClubRole $clubRole)
     {
         //
     }
@@ -64,10 +64,10 @@ class RoomController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Room  $room
+     * @param  \App\Models\ClubRole  $clubRole
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Room $room)
+    public function update(Request $request, ClubRole $clubRole)
     {
         //
     }
@@ -75,10 +75,10 @@ class RoomController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Room  $room
+     * @param  \App\Models\ClubRole  $clubRole
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Room $room)
+    public function destroy(ClubRole $clubRole)
     {
         //
     }

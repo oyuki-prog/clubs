@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Club;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class ClubController extends Controller
 {
@@ -14,7 +17,8 @@ class ClubController extends Controller
      */
     public function index()
     {
-        //
+        $user = User::find(Auth::id());
+        return view('clubs.index', compact('user'));
     }
 
     /**
@@ -24,7 +28,7 @@ class ClubController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -46,7 +50,7 @@ class ClubController extends Controller
      */
     public function show(Club $club)
     {
-        //
+        return view('clubs.show', compact('club'));
     }
 
     /**

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Chat;
+use App\Models\UserRole;
 use Illuminate\Http\Request;
 
-class ChatController extends Controller
+class UserRoleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class ChatController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Chat  $chat
+     * @param  \App\Models\UserRole  $userRole
      * @return \Illuminate\Http\Response
      */
-    public function show(Chat $chat)
+    public function show(UserRole $userRole)
     {
         //
     }
@@ -52,10 +52,10 @@ class ChatController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Chat  $chat
+     * @param  \App\Models\UserRole  $userRole
      * @return \Illuminate\Http\Response
      */
-    public function edit(Chat $chat)
+    public function edit(UserRole $userRole)
     {
         //
     }
@@ -64,10 +64,10 @@ class ChatController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Chat  $chat
+     * @param  \App\Models\UserRole  $userRole
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Chat $chat)
+    public function update(Request $request, UserRole $userRole)
     {
         //
     }
@@ -75,10 +75,10 @@ class ChatController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Chat  $chat
+     * @param  \App\Models\UserRole  $userRole
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Chat $chat)
+    public function destroy(UserRole $userRole)
     {
         //
     }

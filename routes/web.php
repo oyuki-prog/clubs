@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ClubController;
+use App\Http\Controllers\PlanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +22,15 @@ Route::get('/', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
+
+Route::resource('clubs', ClubController::class)
+    ->middleware('auth');
+
+Route::resource('clubs.plans', PlanController::class)
+    ->middleware('auth')
+    ->except('index');
+
+    Route::get('/clubs/{club}/{year}/{month}', [PlanController::class, 'index'])
+    ->middleware('auth')
+    ->name('clubs.plans.index');
+
