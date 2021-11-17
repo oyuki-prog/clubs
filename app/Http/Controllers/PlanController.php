@@ -106,9 +106,9 @@ class PlanController extends Controller
      * @param  \App\Models\Plan  $plan
      * @return \Illuminate\Http\Response
      */
-    public function update(PlanRequest $request, Plan $plan)
+    public function update(PlanRequest $request, Club $club, Plan $plan)
     {
-        //
+
     }
 
     /**

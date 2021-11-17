@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Club;
 use App\Models\ClubRole;
+use App\Models\UserRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -76,9 +77,9 @@ class ClubRoleController extends Controller
      * @param  \App\Models\ClubRole  $clubRole
      * @return \Illuminate\Http\Response
      */
-    public function edit($club)
+    public function edit($clubId)
     {
-        $club = Club::find($club);
+        $club = Club::find($clubId);
         if ($club->isAdmin(Auth::id()) == false) {
             return back()->withErrors(['error' => '役職の編集権限がありません']);
         }
@@ -108,16 +109,16 @@ class ClubRoleController extends Controller
      * @param  \App\Models\ClubRole  $clubRole
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($clubId,$clubRoleId)
     {
-        // dd($id);
-        $clubRole = ClubRole::find($id);
-        // dd($clubRole);
-        $club = $clubRole->club;
-        // dd($club);
+        // dd($clubRoleId);
+        $clubRole = ClubRole::find($clubRoleId);
+        if(UserRole::where('club_role_id', $clubRoleId)->first()) {
+            return back()->withErrors(['error' => 'その役割についている人がいます']);
+        }
         $clubRole->delete();
-
-        return redirect()->route('clubs.clubroles.edit', compact('club'));
+        $id = $clubId;
+        return redirect()->route('clubs.clubroles.edit', compact('id'));
     }
 
 }

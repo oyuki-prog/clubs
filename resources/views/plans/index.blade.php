@@ -1,8 +1,11 @@
 <x-app-layout>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <h2 class="inline-block text-3xl"><a href="{{ route('clubs.show', $club) }}">{{ $club->name }}</a></h2>
-            <a href="{{ route('clubs.plans.create', $club) }}" class="inline-block pl-auto">＋</a>
+            <div class="flex mb-4">
+                <h2 class="inline-block text-2xl">{{ $club->name }}</h2>
+                <a href="{{ route('clubs.show', $club) }}" class="ml-auto leading-10 btn bg-green-300 px-4">チーム情報を見る</a>
+                <a href="{{ route('clubs.plans.create', $club) }}" class="inline-block ml-16 leading-10 btn bg-blue-300 px-4">予定を追加＋</a>
+            </div>
 
             <table class="table-fixed border w-full bg-blue-200 h-full">
                 <thead class="w-full">
@@ -50,10 +53,10 @@
                         @if ($plan->day() == $date->day)
                             @if ($plan->check(Auth::id()) == true || $club->isAdmin(Auth::id()) == true)
                             <a href="{{ route('clubs.plans.show', [$club, $plan]) }}">
-                                <p class="inline-block px-1 m-1 w-full bg-blue-200 truncate">{{ $plan->name }}</p>
+                                <p class="inline-block px-1 w-full bg-blue-200 truncate">{{ $plan->name }}</p>
                             </a>
                             @else
-                            <p class="inline-block px-1 m-1 w-full bg-gray-200">予定あり</p>
+                            <p class="inline-block px-1 w-full bg-gray-200">予定あり</p>
                             @endif
                         @endif
                     @endforeach

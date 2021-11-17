@@ -63,12 +63,82 @@ class User extends Authenticatable
         return $this->hasMany(UserRole::class);
     }
 
-    public function clubs() {
+    public function getClubsAttribute() {
         $clubs = [];
         foreach ($this->userRoles as $userRole) {
             array_push($clubs, $userRole->clubRole->club);
         }
 
         return $clubs;
+    }
+
+    public function isBelong($clubId) {
+        foreach ($this->userRoles as $userRole) {
+            if ($userRole->clubRole->club->id == $clubId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function roleName($clubId) {
+        foreach ($this->userRoles as $userRole) {
+            if ($userRole->clubRole->club->id == $clubId) {
+                return $userRole->clubRole->role_name;
+            }
+        }
+        return "";
+    }
+
+    public function roleNumber($clubId) {
+        foreach ($this->userRoles as $userRole) {
+            if ($userRole->clubRole->club->id == $clubId) {
+                return $userRole->clubRole->role_number;
+            }
+        }
+        return "";
+    }
+
+    public function roleId($clubId)
+    {
+        foreach ($this->userRoles as $userRole) {
+            if ($userRole->clubRole->club->id == $clubId) {
+                return $userRole->clubRole->role_number;
+            }
+        }
+        return "";
+    }
+
+    public function role($clubId)
+    {
+        foreach ($this->userRoles as $userRole) {
+            if ($userRole->clubRole->club->id == $clubId) {
+                return $userRole->clubRole;
+            }
+        }
+        return "";
+    }
+
+    public function isAdmin($clubId) {
+        foreach ($this->userRoles as $userRole) {
+            if ($userRole->clubRole->club->id == $clubId) {
+                if( $userRole->clubRole->role_number == config('const.adminNum')){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public function admin($clubId)
+    {
+        foreach ($this->userRoles as $userRole) {
+            if ($userRole->clubRole->club->id == $clubId) {
+                if ($userRole->clubRole->role_number == config('const.adminNum')) {
+                    return $userRole->clubRole;
+                }
+            }
+        }
+        return "";
     }
 }

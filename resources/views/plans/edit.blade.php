@@ -3,8 +3,9 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             @include('partial.errors')
             <h1 class="text-3xl">予定内容編集</h1>
-            <form action="{{ route('clubs.plans.store', $club) }}" method="POST">
+            <form action="{{ route('clubs.plans.update', [$club, $plan]) }}" method="POST">
                 @csrf
+                @method('PATCH')
                 <div>
                     <label for="name">タイトル</label>
                     <input type="text" name="name" id="name" required value="{{ old('name', $plan->name) }}">
@@ -40,7 +41,7 @@
                         @endif
                     @endforeach
                 </div>
-                <input type="submit" value="登録">
+                <input type="submit" value="更新">
             </form>
         </div>
     </div>

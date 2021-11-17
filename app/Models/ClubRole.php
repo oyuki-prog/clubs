@@ -11,6 +11,7 @@ class ClubRole extends Model
 
     public $timestamps = false;
 
+
     public function userRoles() {
         return $this->hasMany(UserRole::class);
     }

@@ -25,7 +25,7 @@
             @livewire('navigation-menu')
 
             <!-- Page Content -->
-            <main>
+            <main class="overflow-y-auto pt-12">
                 {{ $slot }}
             </main>
         </div>

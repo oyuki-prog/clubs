@@ -3,7 +3,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             @include('partial.errors')
             <h1 class="text-3xl mb-6">所属クラブ一覧</h1>
-            @foreach ($user->clubs() as $club)
+            @foreach ($user->clubs as $club)
                 <p>
                     @if ($club->isMember(Auth::id()) == false)
                     <p class="mb-4 inline-block">{{ $club->name }}(申請中)</p>

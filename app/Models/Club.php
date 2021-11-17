@@ -26,23 +26,25 @@ class Club extends Model
         return $this->hasMany(Plan::class);
     }
 
-    public function leaderRoleName() {
+    public function getAdminRoleNameAttribute() {
         foreach ($this->clubRoles as $clubRole) {
             if ($clubRole->role_number == 1) {
                 $leaderRoleName = $clubRole->role_name;
+                break;
             }
         }
         return $leaderRoleName;
     }
 
-    public function leader() {
+    public function getAdminAttribute() {
         foreach ($this->clubRoles as $clubRole) {
             if ($clubRole->role_number == config('const.adminNum')) {
                 $leaderId = $clubRole->id;
+                break;
             }
         }
 
-        $userRole = userRole::where('club_role_id', $leaderId)->firstOrFail();
+        $userRole = userRole::with('clubRole')->where('club_role_id', $leaderId)->firstOrFail();
         $leader = User::find($userRole->user_id);
         return $leader;
     }
@@ -115,4 +117,5 @@ class Club extends Model
 
         return false;
     }
+
 }

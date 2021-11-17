@@ -52,7 +52,7 @@ Route::patch('clubs/{id}/roles/edit', [ClubRoleController::class, 'update'])
     ->middleware('auth')
     ->name('clubs.clubroles.update');
 
-Route::delete('clubs/{id}/roles/edit', [ClubRoleController::class, 'destroy'])
+Route::delete('clubs/{id}/roles/{clubrole}/edit', [ClubRoleController::class, 'destroy'])
     ->middleware('auth')
     ->name('clubs.clubroles.destroy');
 
