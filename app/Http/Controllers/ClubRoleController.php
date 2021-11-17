@@ -35,9 +35,28 @@ class ClubRoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $club)
     {
-        //
+        $club = Club::find($club);
+        $clubRoles = $club->clubRoles;
+        for ($i = 1; $i <= $clubRoles->count(); $i++) {
+            foreach ($clubRoles as $clubRole) {
+                if ($clubRole->role_number == $i) {
+                    continue;
+                } else {
+                    $roleNumber = $i;
+                    break;
+                }
+            }
+        }
+        $clubRole = new ClubRole();
+        $clubRole->club_id = $club->id;
+        $clubRole->role_number = $roleNumber;
+        $clubRole->role_name = $request->role_name;
+        $clubRole->save();
+
+        $id = $club->id;
+        return redirect()->route('clubs.clubroles.edit', compact('id'));
     }
 
     /**
@@ -63,7 +82,7 @@ class ClubRoleController extends Controller
         if ($club->isAdmin(Auth::id()) == false) {
             return back()->withErrors(['error' => '役職の編集権限がありません']);
         }
-        return view('clubs.members', compact('club'));
+        return view('clubs.roles', compact('club'));
     }
 
     /**
@@ -73,9 +92,14 @@ class ClubRoleController extends Controller
      * @param  \App\Models\ClubRole  $clubRole
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ClubRole $clubRole)
+    public function update(Request $request, $club)
     {
-        
+        foreach($request->clubRole as $id => $role_name) {
+            $targetClubRole = ClubRole::find($id);
+            $targetClubRole->role_name = $role_name;
+            $targetClubRole->save();
+        }
+        return redirect()->route('clubs.show', compact('club'));
     }
 
     /**
@@ -84,9 +108,16 @@ class ClubRoleController extends Controller
      * @param  \App\Models\ClubRole  $clubRole
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ClubRole $clubRole)
+    public function destroy($id)
     {
-        //
+        // dd($id);
+        $clubRole = ClubRole::find($id);
+        // dd($clubRole);
+        $club = $clubRole->club;
+        // dd($club);
+        $clubRole->delete();
+
+        return redirect()->route('clubs.clubroles.edit', compact('club'));
     }
 
 }

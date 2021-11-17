@@ -16,7 +16,10 @@
                 @endif
                 <p class="mb-6 block">管理者：{{ $club->leader()->name }}（{{ $club->leaderRoleName() }}）</p>
             </div>
-            <p class="text-xl">メンバー</p>
+            <div class="flex justify-between">
+                <p class="text-xl">メンバー</p>
+                <a href="{{ route('clubs.clubroles.edit', $club) }}">役職の追加･編集</a>
+            </div>
             <form action="{{ route('clubs.role.update', $club->id) }}" method="POST">
                 @csrf
                 @method('PATCH')

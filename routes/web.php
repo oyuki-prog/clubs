@@ -21,9 +21,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::middleware(['auth:sanctum', 'verified'])->get('/clubs', function () {
+    return view('clubs.index');
+})->name('clubs.index');
 
 Route::resource('clubs', ClubController::class)
     ->middleware('auth');
@@ -36,17 +36,25 @@ Route::post('request', [ClubController::class, 'request'])
     ->middleware('auth')
     ->name('request.store');
 
-Route::get('clubs/{id}/members', [ClubRoleController::class, 'edit'])
-    ->middleware('auth')
-    ->name('clubs.members.edit');
-
-Route::patch('clubs/{id}/members', [ClubRoleController::class, 'update'])
-    ->middleware('auth')
-    ->name('clubs.members.update');
-
-Route::patch('clubs/{id}/role', [UserRoleController::class, 'update'])
+Route::patch('clubs/{id}/roles', [UserRoleController::class, 'update'])
     ->middleware('auth')
     ->name('clubs.role.update');
+
+Route::post('clubs/{id}/roles', [ClubRoleController::class, 'store'])
+    ->middleware('auth')
+    ->name('clubs.clubroles.store');
+
+Route::get('clubs/{id}/roles/edit', [ClubRoleController::class, 'edit'])
+    ->middleware('auth')
+    ->name('clubs.clubroles.edit');
+
+Route::patch('clubs/{id}/roles/edit', [ClubRoleController::class, 'update'])
+    ->middleware('auth')
+    ->name('clubs.clubroles.update');
+
+Route::delete('clubs/{id}/roles/edit', [ClubRoleController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('clubs.clubroles.destroy');
 
 Route::resource('clubs.plans', PlanController::class)
     ->middleware('auth')
