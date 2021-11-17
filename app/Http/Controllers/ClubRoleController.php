@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Club;
 use App\Models\ClubRole;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ClubRoleController extends Controller
 {
@@ -55,9 +57,13 @@ class ClubRoleController extends Controller
      * @param  \App\Models\ClubRole  $clubRole
      * @return \Illuminate\Http\Response
      */
-    public function edit(ClubRole $clubRole)
+    public function edit($club)
     {
-        //
+        $club = Club::find($club);
+        if ($club->isAdmin(Auth::id()) == false) {
+            return back()->withErrors(['error' => '役職の編集権限がありません']);
+        }
+        return view('clubs.members', compact('club'));
     }
 
     /**
@@ -69,7 +75,7 @@ class ClubRoleController extends Controller
      */
     public function update(Request $request, ClubRole $clubRole)
     {
-        //
+        
     }
 
     /**
@@ -82,4 +88,5 @@ class ClubRoleController extends Controller
     {
         //
     }
+
 }

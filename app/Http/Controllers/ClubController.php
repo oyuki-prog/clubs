@@ -9,6 +9,7 @@ use App\Models\UserRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Crypt;
 
 class ClubController extends Controller
 {
@@ -42,18 +43,19 @@ class ClubController extends Controller
     public function store(Request $request)
     {
         $club = new Club($request->all());
+        $club->password = encrypt($request->password);
 
         $clubRoleAdmin = new ClubRole();
-        $clubRoleAdmin->role_number = 1;
+        $clubRoleAdmin->role_number = config('const.adminNum');
         $clubRoleAdmin->role_name = '管理者';
 
-        $clubRoleRequest = new ClubRole();
-        $clubRoleRequest->role_number = 0;
-        $clubRoleRequest->role_name = '申請中';
-
         $clubRoleMember = new ClubRole();
-        $clubRoleMember->role_number = 2;
+        $clubRoleMember->role_number = config('const.defaultMemberNum');
         $clubRoleMember->role_name = 'メンバー';
+
+        $clubRoleRequest = new ClubRole();
+        $clubRoleRequest->role_number = config('const.defaultRequestNum');
+        $clubRoleRequest->role_name = '申請中';
 
         $userRole = new UserRole();
         $userRole->user_id = Auth::id();
@@ -61,14 +63,18 @@ class ClubController extends Controller
         DB::beginTransaction();
         try {
             $club->save();
+
             $clubRoleAdmin->club_id = $club->id;
-            $clubRoleRequest->club_id = $club->id;
             $clubRoleMember->club_id = $club->id;
+            $clubRoleRequest->club_id = $club->id;
+
             $clubRoleAdmin->save();
-            $clubRoleRequest->save();
             $clubRoleMember->save();
+            $clubRoleRequest->save();
+
             $userRole->club_role_id = $clubRoleAdmin->id;
             $userRole->save();
+
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
@@ -86,6 +92,10 @@ class ClubController extends Controller
      */
     public function show(Club $club)
     {
+        if ($club->isMember(Auth::id()) == false) {
+            return back()->withErrors(['error' => 'クラブの閲覧権限がありません']);
+        }
+
         return view('clubs.show', compact('club'));
     }
 
@@ -97,7 +107,11 @@ class ClubController extends Controller
      */
     public function edit(Club $club)
     {
-        //
+        if ($club->isMember(Auth::id()) == false) {
+            return back()->withErrors(['error' => 'クラブの編集権限がありません']);
+        }
+
+        return view('clubs.edit', compact('club'));
     }
 
     /**
@@ -121,5 +135,67 @@ class ClubController extends Controller
     public function destroy(Club $club)
     {
         //
+    }
+
+    public function requestCreate() {
+        return view('clubs.request');
+    }
+
+    public function request(Request $request) {
+        $club = Club::where('unique_name', $request->unique_name)->first();
+        $members = $club->members();
+        foreach($members as $member) {
+            if ($member->id == Auth::id()) {
+                return back()->withErrors(['error' => '既に参加、もしくは申請中のグループです']);
+            }
+        }
+        if ($club == null) {
+            return back()->withErrors(['error' => 'クラブIDに誤りがあります']);
+        }
+
+        foreach ($club->clubRoles as $clubRole) {
+            if ($clubRole->role_number == config('const.defaultRequestNum')) {
+                $requestRoleId = $clubRole->id;
+            }
+        }
+
+        if ($requestRoleId == null) {
+            return back()->withErrors(['error' => 'エラー']);
+        }
+
+        if ($request->password != decrypt($club->password)) {
+            return back()->withErrors(['error' => 'パスワードに誤りがあります']);
+        }
+
+        $userRole = new UserRole;
+        $userRole->name = $request->name;
+        $userRole->user_id = Auth::id();
+        $userRole->club_role_id = $requestRoleId;
+
+        $userRole->save();
+
+        return redirect()->route('clubs.index')->with(['message' => '参加を申請しました']);
+    }
+
+    /**
+     * 復号化処理
+     *
+     * @param $value 復号化前の値
+     * @return 復号化後の値
+     */
+    public function decrypt($value)
+    {
+        return Crypt::decrypt($value);
+    }
+
+    /**
+     * 暗号化処理
+     *
+     * @param $value 暗号化前の値
+     * @return 暗号化後の値
+     */
+    public function encrypt($value)
+    {
+        return Crypt::encrypt($value);
     }
 }

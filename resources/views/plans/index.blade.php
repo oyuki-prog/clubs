@@ -1,14 +1,15 @@
 <x-app-layout>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <h2><a href="{{ route('clubs.show', $club) }}">{{ $club->name }}</a></h2>
+            <h2 class="inline-block text-3xl"><a href="{{ route('clubs.show', $club) }}">{{ $club->name }}</a></h2>
+            <a href="{{ route('clubs.plans.create', $club) }}" class="inline-block pl-auto">＋</a>
 
-            <table class="table-fixed border w-full bg-blue-200 my-40">
+            <table class="table-fixed border w-full bg-blue-200 h-full">
                 <thead class="w-full">
                     <tr>
                         <th colspan="7" class="h-8">
                             <div class="flex justify-between">
-                                <div><a href="
+                                <div class="pl-4"><a href="
                                      @if ($month !=1)
                                         {{ route('clubs.plans.index', [$club, $year, $month - 1]) }}
                                     @else
@@ -19,7 +20,7 @@
                                 <div>
                                     {{ $year . '年  ' . $month . '月' }}
                                 </div>
-                                <div><a href="
+                                <div class="pr-4"><a href="
                                      @if ($month !=12)
                                         {{ route('clubs.plans.index', [$club, $year, $month + 1]) }}
                                     @else
@@ -47,12 +48,12 @@
                     {{ $date->day }}
                     @foreach ($plans as $plan)
                         @if ($plan->day() == $date->day)
-                            @if ($plan->check(Auth::id()) == false)
-                                <p class="inline-block w-full m-0">予定あり</p>
-                            @else
+                            @if ($plan->check(Auth::id()) == true || $club->isAdmin(Auth::id()) == true)
                             <a href="{{ route('clubs.plans.show', [$club, $plan]) }}">
-                                <p class="inline-block w-full m-0">{{ $plan->name }}</p>
+                                <p class="inline-block px-1 m-1 w-full bg-blue-200 truncate">{{ $plan->name }}</p>
                             </a>
+                            @else
+                            <p class="inline-block px-1 m-1 w-full bg-gray-200">予定あり</p>
                             @endif
                         @endif
                     @endforeach

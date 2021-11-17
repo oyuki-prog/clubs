@@ -16,7 +16,6 @@ class Club extends Model
     protected $fillable = [
         'name',
         'unique_name',
-        'password',
     ];
 
     public function clubRoles() {
@@ -43,14 +42,17 @@ class Club extends Model
             }
         }
 
-        $userRole = userRole::where('club_role_id', $leaderId)->firstOrFail();;
+        $userRole = userRole::where('club_role_id', $leaderId)->firstOrFail();
         $leader = User::find($userRole->user_id);
-        return $leader->name;
+        return $leader;
     }
+
+
 
     public function members() {
         $members = [];
-        foreach ($this->clubRoles as $clubRole) {
+        $sortedClubRoles = $this->clubRoles->sortBy('role_number')->values();
+        foreach ($sortedClubRoles as $clubRole) {
             foreach($clubRole->userRoles as $userRole) {
                 if ($userRole->name != null) {
                     $userRole->user->name = $userRole->name;
@@ -58,6 +60,7 @@ class Club extends Model
                 array_push($members, $userRole->user);
             }
         }
+
         return $members;
     }
 
@@ -67,11 +70,49 @@ class Club extends Model
         foreach ($clubRoles as $clubRole) {
             foreach ($userRoles as $userRole) {
                 if ($clubRole->id == $userRole->club_role_id) {
-                    return $clubRole->role_name;
+                    return $clubRole;
                 }
             }
         }
 
         return '';
+    }
+
+    public function isMember($userId)
+    {
+        $userRoles = User::find($userId)->userRoles;
+        $clubRoles = $this->clubRoles;
+        foreach ($clubRoles as $clubRole) {
+            foreach ($userRoles as $userRole) {
+                if ($clubRole->id == $userRole->club_role_id) {
+                    if ($clubRole->role_number == config('const.defaultRequestNum')) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public function isAdmin($userId)
+    {
+        $userRoles = User::find($userId)->userRoles;
+        $clubRoles = $this->clubRoles;
+        foreach ($clubRoles as $clubRole) {
+            foreach ($userRoles as $userRole) {
+                if ($clubRole->id == $userRole->club_role_id) {
+                    if ($clubRole->role_number == config('const.adminNum')) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 }

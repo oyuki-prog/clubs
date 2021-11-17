@@ -10,6 +10,12 @@ class Plan extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'place',
+        'remarks',
+    ];
+
     public function club()
     {
         return $this->belongsTo(Club::class);
