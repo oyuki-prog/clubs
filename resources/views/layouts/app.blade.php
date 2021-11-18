@@ -18,14 +18,14 @@
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>
     </head>
-    <body class="font-sans antialiased vh-100">
+    <body class="font-sans antialiased">
         <x-jet-banner />
 
         <div class="min-h-screen bg-gray-100">
             @livewire('navigation-menu')
 
             <!-- Page Content -->
-            <main class="overflow-y-auto pt-12">
+            <main class="overflow-y-auto py-12">
                 {{ $slot }}
             </main>
         </div>

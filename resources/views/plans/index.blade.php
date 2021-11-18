@@ -4,7 +4,9 @@
             <div class="flex mb-4">
                 <h2 class="inline-block text-2xl">{{ $club->name }}</h2>
                 <a href="{{ route('clubs.show', $club) }}" class="ml-auto leading-10 btn bg-green-300 px-4">チーム情報を見る</a>
+                @if (Auth::user()->isAdmin($club->id) == true)
                 <a href="{{ route('clubs.plans.create', $club) }}" class="inline-block ml-16 leading-10 btn bg-blue-300 px-4">予定を追加＋</a>
+                @endif
             </div>
 
             <table class="table-fixed border w-full bg-blue-200 h-full">

@@ -9,14 +9,27 @@
                     <label for="name">タイトル</label>
                     <input type="text" name="name" id="name" required value="{{ old('name') }}">
                 </div>
-                <div>
-                    <label for="meeting_time">集合時間</label>
-                    <input type="datetime-local" name="meeting_time" id="meeting_time" required  value="{{ old('meeting_time') }}">
+                <div class="flex">
+                    <div>
+                        <label for="meeting_date">開始日</label>
+                        <input type="date" name="meeting_date" id="meeting_date" required  value="{{ old('meeting_date') }}">
+                    </div>
+                    <div>
+                        <label for="meeting_time">集合時刻</label>
+                        <input type="time" name="meeting_time" id="meeting_time" required  value="{{ old('meeting_time') }}">
+                    </div>
                 </div>
-                <div>
-                    <label for="dissolution_time">解散時間</label>
-                    <input type="datetime-local" name="dissolution_time" id="dissolution_time" required value="{{ old('dissolution_time') }}">
+                <div class="flex">
+                    <div>
+                        <label for="dissolution_date">終了日</label>
+                        <input type="date" name="dissolution_date" id="dissolution_date" required value="{{ old('dissolution_date') }}">
+                    </div>
+                    <div>
+                        <label for="dissolution_time">解散時刻</label>
+                        <input type="time" name="dissolution_time" id="dissolution_time" required value="{{ old('dissolution_time') }}">
+                    </div>
                 </div>
+
                 <div>
                     <label for="place">場所</label>
                     <input type="text" name="place" id="place" required value="{{ old('place') }}">

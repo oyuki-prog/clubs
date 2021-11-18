@@ -30,7 +30,7 @@
                     @if ($member->name != $club->admin->name)
                         @if ($member->profile_photo_url)
                             <div
-                                class="flex items-center text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition mb-4">
+                                class="flex items-center text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition mb-2">
                                 <img class="h-8 w-8 rounded-full object-cover inline-block"
                                     src="{{ $member->profile_photo_url }}" alt="{{ $member->name }}" />
                             @else
@@ -64,18 +64,6 @@
                                         @endif
                                     @endif
                                 @endforeach
-                                {{-- @foreach ($club->clubRoles as $clubRole)
-                                        @if ($clubRole->role_number != config('const.adminNum') && $clubRole->role_number != config('const.defaultRequestNum'))
-                                            <option value="{{ $clubRole->id }}" @if ($club->role($member->id)->id == $clubRole->id) selected @endif>
-                                                {{ $clubRole->role_name }}</option>
-                                        @else
-                                            @if ($member->roleName($club->id) == $clubRole->role_name)
-                                                <option value="{{ config('const.defaultRequestNum') }}"
-                                                    @if ($club->role($member->id)->id == $clubRole->id) selected @endif>
-                                                    {{ $clubRole->role_name }}</option>
-                                            @endif
-                                        @endif
-                                    @endforeach --}}
                             </select>
                         @else
                             ({{ $member->role($club->id)->role_name }})

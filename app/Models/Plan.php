@@ -25,6 +25,10 @@ class Plan extends Model
         return $this->hasMany(DisclosureRange::class);
     }
 
+    public function threads() {
+        return $this->hasMany(Thread::class);
+    }
+
     public function check($userId) {
         $userRoles = User::find($userId)->userRoles;
         $clubRoleIds = [];

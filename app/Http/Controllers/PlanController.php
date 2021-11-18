@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests\PlanRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class PlanController extends Controller
 {
@@ -50,8 +51,8 @@ class PlanController extends Controller
     {
         $club = Club::find($club);
         $plan = new Plan($request->all());
-        $plan->meeting_time = date('Y-m-d H:i:s',strtotime($request->meeting_time));
-        $plan->dissolution_time = date('Y-m-d H:i:s',strtotime($request->dissolution_time));
+        $plan->meeting_time = $request->meeting_date . ' ' . $request->meeting_time . ':00';
+        $plan->dissolution_time = $request->dissolution_date . ' ' . $request->dissolution_time . ':00';
         $plan->club_id = $club->id;
 
         DB::beginTransaction();
@@ -106,9 +107,39 @@ class PlanController extends Controller
      * @param  \App\Models\Plan  $plan
      * @return \Illuminate\Http\Response
      */
-    public function update(PlanRequest $request, Club $club, Plan $plan)
+    public function update(PlanRequest $request, $club, Plan $plan)
     {
+        $club = Club::find($club);
+        $plan->meeting_time = $request->meeting_date . ' ' . $request->meeting_time . ':00';
+        $plan->dissolution_time = $request->dissolution_date . ' ' . $request->dissolution_time . ':00';
+        $plan->club_id = $club->id;
 
+        $disclosureRanges = $plan->disclosureRanges;
+
+        DB::beginTransaction();
+        try {
+            $plan->save();
+            foreach ($disclosureRanges as $disclosureRange) {
+                $disclosureRange->delete();
+            }
+            $year = $plan->year();
+            $month = $plan->month();
+            if ($request->public != null) {
+                foreach ($request->public as $public) {
+                    $disclosureRange = new DisclosureRange();
+                    $disclosureRange->plan_id = $plan->id;
+                    $disclosureRange->club_role_id = $public;
+                    $disclosureRange->save();
+                }
+            }
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            dd($e);
+            return back()->withErrors(['error' => 'プランの更新に失敗しました']);
+        }
+
+        return redirect()->route('clubs.plans.index', compact(['club', 'year', 'month']));
     }
 
     /**
@@ -117,9 +148,18 @@ class PlanController extends Controller
      * @param  \App\Models\Plan  $plan
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Plan $plan)
+    public function destroy(Club $club,Plan $plan)
     {
-        //
+        foreach ($plan->threads as $thread) {
+            if ($thread->file) {
+                Storage::delete('thread_image/'. $thread->file);
+            }
+        }
+        $year = $plan->year();
+        $month = $plan->month();
+        $plan->delete();
+
+        return redirect()->route('clubs.plans.index', compact(['club', 'year', 'month']));
     }
 
     public function getCalendarDates($year, $month)

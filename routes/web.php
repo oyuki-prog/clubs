@@ -3,6 +3,7 @@
 use App\Http\Controllers\ClubController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ClubRoleController;
+use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\UserRoleController;
 use Illuminate\Support\Facades\Route;
 
@@ -59,6 +60,10 @@ Route::delete('clubs/{id}/roles/{clubrole}/edit', [ClubRoleController::class, 'd
 Route::resource('clubs.plans', PlanController::class)
     ->middleware('auth')
     ->except('index');
+
+Route::post('clubs/{club}/plans/{plan}/threads',[ThreadController::class, 'store'])
+    ->middleware('auth')
+    ->name('clubs.plans.threads.store');
 
 Route::get('/clubs/{club}/{year}/{month}', [PlanController::class, 'index'])
     ->middleware('auth')

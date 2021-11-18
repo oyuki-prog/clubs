@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ClubRequest;
 use App\Models\Club;
 use App\Models\ClubRole;
 use App\Models\User;
@@ -40,7 +41,7 @@ class ClubController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ClubRequest $request)
     {
         $club = new Club($request->all());
         $club->password = encrypt($request->password);
@@ -121,7 +122,7 @@ class ClubController extends Controller
      * @param  \App\Models\Club  $club
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Club $club)
+    public function update(ClubRequest $request, Club $club)
     {
         //
     }

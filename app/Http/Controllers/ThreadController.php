@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Club;
+use App\Models\Plan;
 use App\Models\Thread;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ThreadController extends Controller
 {
@@ -33,9 +37,22 @@ class ThreadController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Club $club, Plan $plan)
     {
-        //
+        if($request->file != null || $request->body != null) {
+            $thread = new Thread();
+            $thread->plan_id = $plan->id;
+            $thread->user_id = Auth::id();
+            $thread->body = $request->body;
+            if($request->file != null) {
+                $file = $request->file;
+                $threadImage = Storage::putFile('thread_image' , $file);
+                $thread->file = basename($threadImage);
+            }
+            $thread->save();
+        }
+
+        return redirect()->route('clubs.plans.show', compact('club', 'plan'));
     }
 
     /**
