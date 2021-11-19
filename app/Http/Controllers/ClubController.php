@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ClubRequest;
 use App\Models\Club;
 use App\Models\ClubRole;
-use App\Models\User;
 use App\Models\UserRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +20,7 @@ class ClubController extends Controller
      */
     public function index()
     {
-        $user = User::find(Auth::id());
+        $user = Auth::user();
         return view('clubs.index', compact('user'));
     }
 
@@ -43,6 +42,10 @@ class ClubController extends Controller
      */
     public function store(ClubRequest $request)
     {
+        if ($request->password != $request->confirm) {
+            return back()->withErrors(["error" => 'パスワードと確認が一致しません']);
+        }
+        
         $club = new Club($request->all());
         $club->password = encrypt($request->password);
 
@@ -124,7 +127,17 @@ class ClubController extends Controller
      */
     public function update(ClubRequest $request, Club $club)
     {
-        //
+        if ($request->password != $request->confirm) {
+            return back()->withErrors(['error' => 'パスワードと確認が一致しません']);
+        }
+
+        $club->name = $request->name;
+        $club->unique_name = $request->unique_name;
+        $club->password = $request->password;
+
+        $club->save();
+
+        return redirect()->route('clubs.show', compact('club'));
     }
 
     /**
@@ -150,6 +163,7 @@ class ClubController extends Controller
                 return back()->withErrors(['error' => '既に参加、もしくは申請中のグループです']);
             }
         }
+
         if ($club == null) {
             return back()->withErrors(['error' => 'クラブIDに誤りがあります']);
         }

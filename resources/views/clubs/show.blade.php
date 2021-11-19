@@ -14,7 +14,12 @@
                             clip-rule="evenodd" />
                     </svg>
                 @endif
-                <p class="pl-4 block">管理者：{{ $club->admin->name }}（{{ $club->admin_role_name }}）</p>
+                <div class="flex justify-between">
+                    <p class="pl-4 block">管理者：{{ $club->admin->name }}（{{ $club->admin_role_name }}）</p>
+                    @if (Auth::user()->isAdmin($club->id))
+                    <a href="{{ route('clubs.edit', $club) }}">チーム情報の編集</a>
+                @endif
+                </div>
             </div>
             <a href="{{ route('clubs.plans.index', [$club, date('Y'), date('m')]) }}">カレンダーを見る</a>
             <div class="flex justify-between">

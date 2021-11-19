@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ClubController;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\RegisterController;
 use Illuminate\Http\Request;
@@ -25,3 +26,15 @@ Route::post('/register', [RegisterController::class, 'register']);
 
 // ログイン
 Route::post('/login', [LoginController::class, 'login']);
+
+Route::group(['middleware' => ['api']], function(){
+    Route::apiResource('clubs', App\Http\Controllers\Api\ClubController::class)
+        ->middleware('auth:sanctum');
+
+    Route::apiResource('clubs.plans', App\Http\Controllers\Api\ClubController::class)
+        ->middleware('auth:sanctum');
+
+    Route::post('request', [ClubController::class, 'request'])
+    ->middleware('auth:sanctum')
+    ->name('request.store');
+});

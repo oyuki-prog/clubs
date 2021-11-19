@@ -1,0 +1,91 @@
+# index
+GET /api/clubs
+Host: localhost
+Content-Type: application/json
+Authorization: Bearer 5|IjZiocH38QXcjurAYMRJiSh0E4RKAUzkbHFIYXb0
+
+###
+
+
+# clubs store
+POST /api/clubs
+Host: localhost
+Content-Type: application/json
+Authorization: Bearer 4|N6DGSvPWPmGwU2BTsLBCD9xb05VPbtEqVlQI6xSl
+
+{
+    "name": "API中学校",
+    "unique_name": "apischool",
+    "password": "password",
+    "confirm": "password"
+}
+
+###
+
+# register
+POST /api/register
+Host: localhost
+Content-Type: application/json
+
+{
+    "name": "おいかわゆうき",
+    "email": "oyuki.gamer@gmail.com",
+    "password": "ikuya512"
+}
+
+###
+
+# login
+POST /api/login
+Host: localhost
+Content-Type: application/json
+
+{
+    "email": "oyuki.gamer@gmail.com",
+    "password": "ikuya512"
+}
+
+###
+
+# user
+GET /api/user
+Host: localhost
+Content-Type: application/json
+Authorization: Bearer 5|IjZiocH38QXcjurAYMRJiSh0E4RKAUzkbHFIYXb0
+###
+
+# clubs show
+GET /api/clubs/1
+Host: localhost
+Content-Type: application/json
+Authorization: Bearer 5|IjZiocH38QXcjurAYMRJiSh0E4RKAUzkbHFIYXb0
+
+###
+
+# request
+POST /api/request
+Host: localhost
+Content-Type: application/json
+Authorization: Bearer 5|IjZiocH38QXcjurAYMRJiSh0E4RKAUzkbHFIYXb0
+
+{
+    "name": "oichan",
+    "unique_name": "test",
+    "password": "testtest"
+}
+
+###
+
+# clubs update
+PATCH /api/clubs/3
+Host: localhost
+Content-Type: application/json
+Authorization: Bearer 5|IjZiocH38QXcjurAYMRJiSh0E4RKAUzkbHFIYXb0
+
+{
+    "name": "api中学校",
+    "unique_name": "api",
+    "password": "apiapiapi",
+    "confirm": "apiapiapi"
+}
+###
