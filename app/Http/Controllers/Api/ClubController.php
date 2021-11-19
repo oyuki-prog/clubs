@@ -20,13 +20,13 @@ class ClubController extends Controller
      */
     public function index(Request $request)
     {
-        $items = [];
+        $items = collect();
         $userRoles = UserRole::where('user_id', $request->user()->id)->get();
         foreach ($userRoles as $userRole) {
             $clubRole = ClubRole::find($userRole->club_role_id);
             $club = Club::find($clubRole->club_id);
 
-            array_push($clubs, ["club" => $club, "role" => $clubRole]);
+            $items->push(["club" => $club, "role" => $clubRole]);
         }
         return $items;
     }

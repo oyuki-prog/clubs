@@ -1,27 +1,3 @@
-# index
-GET /api/clubs
-Host: localhost
-Content-Type: application/json
-Authorization: Bearer 5|IjZiocH38QXcjurAYMRJiSh0E4RKAUzkbHFIYXb0
-
-###
-
-
-# clubs store
-POST /api/clubs
-Host: localhost
-Content-Type: application/json
-Authorization: Bearer 4|N6DGSvPWPmGwU2BTsLBCD9xb05VPbtEqVlQI6xSl
-
-{
-    "name": "API中学校",
-    "unique_name": "apischool",
-    "password": "password",
-    "confirm": "password"
-}
-
-###
-
 # register
 POST /api/register
 Host: localhost
@@ -51,22 +27,14 @@ Content-Type: application/json
 GET /api/user
 Host: localhost
 Content-Type: application/json
-Authorization: Bearer 5|IjZiocH38QXcjurAYMRJiSh0E4RKAUzkbHFIYXb0
+Authorization: Bearer 7|9bJXiSPXUkAQRToyi1w4B0gEiSihL0gFkl3YM8tz
 ###
 
-# clubs show
-GET /api/clubs/1
-Host: localhost
-Content-Type: application/json
-Authorization: Bearer 5|IjZiocH38QXcjurAYMRJiSh0E4RKAUzkbHFIYXb0
-
-###
-
-# request
+# clubs request
 POST /api/request
 Host: localhost
 Content-Type: application/json
-Authorization: Bearer 5|IjZiocH38QXcjurAYMRJiSh0E4RKAUzkbHFIYXb0
+Authorization: Bearer 7|9bJXiSPXUkAQRToyi1w4B0gEiSihL0gFkl3YM8tz
 
 {
     "name": "oichan",
@@ -75,6 +43,37 @@ Authorization: Bearer 5|IjZiocH38QXcjurAYMRJiSh0E4RKAUzkbHFIYXb0
 }
 
 ###
+# clubs index
+GET /api/clubs
+Host: localhost
+Content-Type: application/json
+Authorization: Bearer 7|9bJXiSPXUkAQRToyi1w4B0gEiSihL0gFkl3YM8tz
+
+###
+
+# clubs store
+POST /api/clubs
+Host: localhost
+Content-Type: application/json
+Authorization: Bearer 4|N6DGSvPWPmGwU2BTsLBCD9xb05VPbtEqVlQI6xSl
+
+{
+    "name": "API中学校",
+    "unique_name": "apischool",
+    "password": "password",
+    "confirm": "password"
+}
+
+###
+
+
+# clubs show
+GET /api/clubs/1
+Host: localhost
+Content-Type: application/json
+Authorization: Bearer 7|9bJXiSPXUkAQRToyi1w4B0gEiSihL0gFkl3YM8tz
+###
+
 
 # clubs update
 PATCH /api/clubs/3
@@ -88,4 +87,44 @@ Authorization: Bearer 5|IjZiocH38QXcjurAYMRJiSh0E4RKAUzkbHFIYXb0
     "password": "apiapiapi",
     "confirm": "apiapiapi"
 }
+###
+
+# clubs plans index
+GET /api/clubs/3/2021/11
+Host: localhost
+Content-Type: application/json
+Authorization: Bearer 6|vm5w5jT2s7cYpTzdMJkoYagZnAfETUpoMpJxAyda
+
+###
+
+#clubs plans store
+POST /api/clubs/3/plans
+Host: localhost
+Content-Type: application/json
+Authorization: Bearer 7|9bJXiSPXUkAQRToyi1w4B0gEiSihL0gFkl3YM8tz
+
+{
+    "name" : "apistore",
+    "meeting_time" : "2021-11-22 10:00:00",
+    "dissolution_time" : "2021-11-22 15:00:00",
+    "place" : "ここ",
+    "remarks" : "備考は備考だ",
+    "public" : {
+        "0" : "12"
+    }
+}
+
+###
+
+#clubs plans threads store
+POST /api/clubs/3/plans/10/threads
+Host: localhost
+Content-Type: application/json
+Authorization: Bearer 7|9bJXiSPXUkAQRToyi1w4B0gEiSihL0gFkl3YM8tz
+
+{
+    "body" : "ラインみたいじゃね？",
+    "file" : "2.jpg"
+}
+
 ###

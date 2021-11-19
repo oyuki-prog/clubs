@@ -60,6 +60,7 @@ class PlanController extends Controller
             $plan->save();
             $year = $plan->year();
             $month = $plan->month();
+
             if($request->public != null){
                 foreach ($request->public as $public) {
                     $disclosureRange = new DisclosureRange();
