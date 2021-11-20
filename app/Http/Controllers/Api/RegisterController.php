@@ -27,12 +27,14 @@ class RegisterController extends Controller
             return response()->json($validator->messages(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        User::create([
+        $user = User::create([
             'name' =>  $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
-        return response()->json('User registration completed', Response::HTTP_OK);
+        $token = $user->createToken("login:user{$user->id}")->plainTextToken;
+
+        return response()->json(['token' => $token], Response::HTTP_OK);
     }
 }

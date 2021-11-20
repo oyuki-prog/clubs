@@ -4,9 +4,9 @@ Host: localhost
 Content-Type: application/json
 
 {
-    "name": "おいかわゆうき",
-    "email": "oyuki.gamer@gmail.com",
-    "password": "ikuya512"
+    "name": "aaa",
+    "email": "aaa@aaa",
+    "password": "11111111"
 }
 
 ###
