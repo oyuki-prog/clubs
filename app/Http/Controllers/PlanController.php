@@ -8,6 +8,7 @@ use App\Models\Plan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests\PlanRequest;
+use App\Models\Thread;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -87,7 +88,8 @@ class PlanController extends Controller
      */
     public function show(Club $club, Plan $plan)
     {
-        return view('plans.show', compact(['club', 'plan']));
+        $threads = Thread::where('plan_id', $plan->id)->orderBy('created_at','DESC')->simplePaginate(10);
+        return view('plans.show', compact(['club', 'plan', 'threads']));
     }
 
     /**

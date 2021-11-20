@@ -165,7 +165,6 @@ class PlanController extends Controller
 
         $plan = Plan::find($planId);
         $threads = Thread::where('plan_id', $planId)->get();
-        
         return $items = ["plan" => $plan, "threads" => $threads];
     }
 

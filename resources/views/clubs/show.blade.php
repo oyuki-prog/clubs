@@ -1,8 +1,15 @@
 <x-app-layout>
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <h2 class="text-3xl">チーム名：{{ $club->name }}</h2>
-            <div class="flex items-center">
+        <div class="max-w-7xl mx-auto px-4 lg:px-8">
+            <div class="flex items-center mb-6">
+                <h2 class="text-xl lg:text-3xl inline-block text-center lg:text-left">{{ $club->name }}</h2>
+                <p class="inline-block text-right ml-4 text-gray-400">{{ $club->unique_name }}</p>
+                @if (Auth::user()->isAdmin($club->id))
+                    <a class="block ml-auto lg:ml-4 text-sm py-1 px-2 bg-pink-300 rounded" href="{{ route('clubs.edit', $club) }}">チーム情報編集</a>
+                @endif
+            </div>
+            <p class="text-base lg:text-xl">管理者</p>
+            <div class="flex items-center mb-6">
                 @if ($club->admin->profile_photo_url)
                     <img class="h-8 w-8 rounded-full object-cover inline-block"
                         src="{{ $club->admin->profile_photo_url }}" alt="{{ $club->admin->name }}" />
@@ -14,28 +21,29 @@
                             clip-rule="evenodd" />
                     </svg>
                 @endif
-                <div class="flex justify-between">
-                    <p class="pl-4 block">管理者：{{ $club->admin->name }}（{{ $club->admin_role_name }}）</p>
-                    @if (Auth::user()->isAdmin($club->id))
-                    <a href="{{ route('clubs.edit', $club) }}">チーム情報の編集</a>
-                @endif
-                </div>
+
+                    <p class="pl-4 block">{{ $club->admin->name }}</p>
+                    <p class="w-20 ml-auto lg:ml-4 bg-red-200 block text-center rounded-full text-sm lg:text-base">{{ $club->admin_role_name }}</p>
+
             </div>
-            <a href="{{ route('clubs.plans.index', [$club, date('Y'), date('m')]) }}">カレンダーを見る</a>
-            <div class="flex justify-between">
-                <p class="text-xl">メンバー</p>
+            <div class="text-center mb-12">
+                <a href="{{ route('clubs.plans.index', [$club, date('Y'), date('m')]) }}" class="text-center lg:ml-4 bg-green-200 rounded text-sm lg:text-base p-2 inline-block w-auto">カレンダーを見る</a>
+            </div>
+            <div class="flex mb-6">
+                <p class="text-base lg:text-xl">メンバー</p>
                 @if (Auth::user()->isAdmin($club->id))
-                    <a href="{{ route('clubs.clubroles.edit', $club) }}">役職の追加･編集</a>
+                    <a class="block ml-auto lg:ml-4 text-sm py-1 px-2 bg-pink-300 rounded" href="{{ route('clubs.clubroles.edit', $club) }}">役職の追加･編集</a>
                 @endif
             </div>
-            <form action="{{ route('clubs.role.update', $club->id) }}" method="POST">
+
+            <form action="{{ route('clubs.role.update', $club->id) }}" method="POST" id="form" class="lg:flex lg:justify-around lg:flex-wrap">
                 @csrf
                 @method('PATCH')
                 @foreach ($club->members() as $member)
                     @if ($member->name != $club->admin->name)
                         @if ($member->profile_photo_url)
                             <div
-                                class="flex items-center text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition mb-2">
+                                class="flex items-center text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition mb-4 lg:w-5/12">
                                 <img class="h-8 w-8 rounded-full object-cover inline-block"
                                     src="{{ $member->profile_photo_url }}" alt="{{ $member->name }}" />
                             @else
@@ -50,13 +58,13 @@
                                             clip-rule="evenodd" />
                                     </svg>
                         @endif
-                        <p class="pl-4 inline-block w-1/3">
+
+                        <p class="pl-4 inline-block">
                             {{ $member->name }}
-                            {{-- @if ($club->isAdmin(Auth::id())) --}}
                         </p>
 
                         @if (Auth::user()->isAdmin($club->id))
-                            <select name="clubRole[{{ $member->id }}]" id="clubRole" class="inline-block">
+                            <select name="clubRole[{{ $member->id }}]" id="clubRole" class="inline-block rounded border-gray-300 py-1 ml-auto">
                                 @foreach ($club->clubRoles as $clubRole)
                                     @if ($clubRole->role_number != config('const.adminNum') && $clubRole->role_number != config('const.defaultRequestNum'))
                                         <option value="{{ $clubRole->id }}" @if ($member->role($club->id)->id == $clubRole->id) selected @endif>
@@ -71,16 +79,20 @@
                                 @endforeach
                             </select>
                         @else
-                            ({{ $member->role($club->id)->role_name }})
+                        <p class="w-20 ml-auto lg:ml-4 bg-blue-200 block text-center rounded-full text-sm lg:text-base">
+                            {{ $member->roleName($club->id)}}</p>
+                            {{-- () --}}
                         @endif
 
         </div>
         @endif
         @endforeach
         @if (Auth::user()->isAdmin($club->id))
-            <input type="submit" value="更新">
         @endif
-        </form>
+    </form>
+    <div class="w-full">
+        <input type="submit" value="更新" class="text-center bg-green-200 rounded text-sm lg:text-base p-2 px-4 block ml-auto font-bold" form="form">
+    </div>
 
     </div>
     </div>

@@ -34,12 +34,12 @@ Authorization: Bearer 7|9bJXiSPXUkAQRToyi1w4B0gEiSihL0gFkl3YM8tz
 POST /api/request
 Host: localhost
 Content-Type: application/json
-Authorization: Bearer 7|9bJXiSPXUkAQRToyi1w4B0gEiSihL0gFkl3YM8tz
+Authorization: Bearer 8|KLFxx2YoAV1O70gDI9iff4p07jKEwYcHECGHQjEj
 
 {
-    "name": "oichan",
-    "unique_name": "test",
-    "password": "testtest"
+    "name": "oyuki",
+    "unique_name": "api",
+    "password": "apiapiapi"
 }
 
 ###
@@ -117,14 +117,13 @@ Authorization: Bearer 7|9bJXiSPXUkAQRToyi1w4B0gEiSihL0gFkl3YM8tz
 ###
 
 #clubs plans threads store
-POST /api/clubs/3/plans/10/threads
+POST /api/clubs/3/plans/8/threads
 Host: localhost
 Content-Type: application/json
-Authorization: Bearer 7|9bJXiSPXUkAQRToyi1w4B0gEiSihL0gFkl3YM8tz
+Authorization: Bearer 9|jTM0OwjkdnpCDKDOH41OplgvhJoXstF7pjoWpkbz
 
 {
-    "body" : "ラインみたいじゃね？",
-    "file" : "2.jpg"
+    "body" : "でもリアルタイム更新じゃないんだよね"
 }
 
 ###

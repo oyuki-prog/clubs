@@ -119,6 +119,20 @@ class User extends Authenticatable
         return "";
     }
 
+    public function nickName($clubId)
+    {
+        foreach ($this->userRoles as $userRole) {
+            if ($userRole->clubRole->club->id == $clubId) {
+                if ($userRole->name) {
+                    return $userRole->name;
+                } else {
+                    return $this->name;
+                }
+            }
+        }
+        return "";
+    }
+
     public function isAdmin($clubId) {
         foreach ($this->userRoles as $userRole) {
             if ($userRole->clubRole->club->id == $clubId) {
