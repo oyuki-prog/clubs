@@ -8,9 +8,11 @@ use App\Models\ClubRole;
 use App\Models\DisclosureRange;
 use App\Models\Plan;
 use App\Models\Thread;
+use App\Models\User;
 use App\Models\UserRole;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class PlanController extends Controller
 {
@@ -28,8 +30,6 @@ class PlanController extends Controller
         foreach ($clubRoles as $clubRole) {
             $userRoles = UserRole::where('club_role_id', $clubRole->id)->get();
             foreach ($userRoles as $userRole) {
-
-
                 if ($userRole->user_id == $user->id) {
                     $clubRoleId = $clubRole->id;
                     $isMember = true;
@@ -40,35 +40,37 @@ class PlanController extends Controller
                     break;
                 }
             }
-
             if ($isMember == true) {
                 break;
             }
         }
 
         if ($isMember == false) {
-            return $message = ["message" => "クラブの閲覧権限がありません"];
+            return $message = collect(["message" => "クラブの閲覧権限がありません"]);
         }
         $items = collect();
-        // $dates = $this->getCalendarDates($year, $month);
+
         $plans = Plan::where('club_id', $id)->get();
         foreach ($plans as $plan) {
-            $disclosureRanges = DisclosureRange::where('plan_id', $plan->id)->get();
-            if ($disclosureRanges->count() == 0) {
-                $items->push(["id" => $plan->id, "club_id" => $id, "name" => "予定あり", "meeting_time" => $plan->meeting_time, "dissolution_time" => $plan->disslution_time]);
+            if ($plan->year() != $year || $plan->month() != $month) {
+                continue;
             }
-            foreach ($disclosureRanges as $disclosureRange) {
-                if ($disclosureRange->club_role_id == $clubRoleId || $isAdmin == true) {
-                    if ($this->year($plan->meeting_time) == $year && $this->month($plan->meeting_time) == $month) {
-                        $items->push($plan);
+            $disclosureRanges = DisclosureRange::where('plan_id', $plan->id)->get();
+            if ($disclosureRanges->count() == 0 || $isAdmin != true) {
+                $items->push(["plan" => ["id" => $plan->id, "club_id" => $id, "name" => $isAdmin, "meeting_time" => $plan->meeting_time, "dissolution_time" => $plan->dissolution_time] ,"can" => false]);
+                continue;
+            } else {
+                foreach ($disclosureRanges as $disclosureRange) {
+                    if ($disclosureRange->club_role_id == $clubRoleId || $isAdmin == true) {
+                        // if ($this->year($plan->meeting_time) == $year && $this->month($plan->meeting_time) == $month) {
+                            $items->push(["plan" => $plan, "can" => true]);
+                            // }
+                        } else {
+                            $items->push(["plan" => ["id" => $plan->id, "club_id" => $id, "name" => "予定あり", "meeting_time" => $plan->meeting_time, "dissolution_time" => $plan->dissolution_time], "can" => false]);
+                        }
                     }
-                } else {
-                    $items->push(["id" => $plan->id, "club_id" => $id, "name" => "予定あり", "meeting_time" => $plan->meeting_time, "dissolution_time" => $plan->disslution_time]);
-                }
             }
         }
-
-        $items = ["plans" => $items, "clubRoles" => $clubRoles];
         return $items;
     }
 
@@ -144,14 +146,16 @@ class PlanController extends Controller
     public function show(Request $request, $clubId, $planId)
     {
         $user = $request->user();
+        $items = collect();
         $isMember = false;
         $clubRoles = ClubRole::where('club_id', $clubId)->get();
         foreach ($clubRoles as $clubRole) {
             $userRoles = UserRole::where('club_role_id', $clubRole->id)->get();
             foreach ($userRoles as $userRole) {
-                if ($userRole->user_id == $user->id)
+                if ($userRole->user_id == $user->id) {
                     $isMember = true;
-                break;
+                    break;
+                }
             }
 
             if ($isMember == true) {
@@ -160,12 +164,17 @@ class PlanController extends Controller
         }
 
         if ($isMember == false) {
-            return $message = ["message" => "閲覧権限がありません"];
+            return $message = collect(["message" => "閲覧権限がありません"]);
         }
-
+        $threadItems = collect();
         $plan = Plan::find($planId);
         $threads = Thread::where('plan_id', $planId)->get();
-        return $items = ["plan" => $plan, "threads" => $threads];
+        foreach ($threads as $thread) {
+            $sender = User::find($thread->user_id);
+            $threadItems->push(["thread" => $thread, "user" => $sender]);
+        }
+        $items->push(["plan" => $plan, "threads" => $threadItems]);
+        return $items;
     }
 
     /**

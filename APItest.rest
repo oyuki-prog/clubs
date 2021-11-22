@@ -17,7 +17,7 @@ Host: localhost
 Content-Type: application/json
 
 {
-    "email": "oyuki.gamer@gmail.com",
+    "email": "oyu8no3jo@gmail.com",
     "password": "ikuya512"
 }
 
@@ -47,8 +47,7 @@ Authorization: Bearer 8|KLFxx2YoAV1O70gDI9iff4p07jKEwYcHECGHQjEj
 GET /api/clubs
 Host: localhost
 Content-Type: application/json
-Authorization: Bearer 7|9bJXiSPXUkAQRToyi1w4B0gEiSihL0gFkl3YM8tz
-
+Authorization: Bearer 26|eywgwJ356yV8mSDr5u1FDDCt482QrfUlF3IDgTw8
 ###
 
 # clubs store
@@ -90,18 +89,19 @@ Authorization: Bearer 5|IjZiocH38QXcjurAYMRJiSh0E4RKAUzkbHFIYXb0
 ###
 
 # clubs plans index
-GET /api/clubs/3/2021/11
+GET /api/clubs/4/2021/11
 Host: localhost
 Content-Type: application/json
-Authorization: Bearer 6|vm5w5jT2s7cYpTzdMJkoYagZnAfETUpoMpJxAyda
+Authorization: Bearer 26|eywgwJ356yV8mSDr5u1FDDCt482QrfUlF3IDgTw8
 
 ###
 
 #clubs plans store
-POST /api/clubs/3/plans
+POST /api/clubs/4/plans
 Host: localhost
 Content-Type: application/json
-Authorization: Bearer 7|9bJXiSPXUkAQRToyi1w4B0gEiSihL0gFkl3YM8tz
+Authorization: Bearer 26|eywgwJ356yV8mSDr5u1FDDCt482QrfUlF3IDgTw8
+
 
 {
     "name" : "apistore",
@@ -113,6 +113,13 @@ Authorization: Bearer 7|9bJXiSPXUkAQRToyi1w4B0gEiSihL0gFkl3YM8tz
         "0" : "12"
     }
 }
+
+###
+
+GET /api/clubs/4/plans/13
+Host: localhost
+Content-Type: application/json
+Authorization: Bearer 26|eywgwJ356yV8mSDr5u1FDDCt482QrfUlF3IDgTw8
 
 ###
 

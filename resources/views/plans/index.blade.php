@@ -3,7 +3,7 @@
         <div class="max-w-7xl mx-auto px-4 lg:px-8">
             <div class="lg:flex items-center">
                 <h2 class="inline-block lg:text-3xl text-2xl mb-4">{{ $club->name }}</h2>
-                <div class="lg:w-full flex mb-4 items-center lg:ml-4 justify-between  flex-1"">
+                <div class="lg:w-full flex mb-4 items-center lg:ml-4 justify-between  flex-1">
                     <a href="{{ route('clubs.show', $club) }}" class="bg-green-300 p-2 px-4 block rounded-full">チーム情報</a>
                     @if (Auth::user()->isAdmin($club->id) == true)
                         <a href="{{ route('clubs.plans.create', $club) }}"
@@ -12,7 +12,7 @@
                 </div>
             </div>
 
-            <table class="table-fixed border w-full bg-blue-200 h-full">
+            <table class="table-fixed border w-full bg-white h-full">
                 <thead class="w-full">
                     <tr>
                         <th colspan="7" class="h-8">
@@ -49,9 +49,9 @@
                         @if ($date->dayOfWeek == 0)
                             <tr class="h-28">
                         @endif
-                        <td @if ($date->month != Date('Y'))
-                            class="bg-white border align-top"
-                    @endif
+                        <td
+                            class="@if ($date->month != $month) bg-gray-100 @endif border align-top"
+
                     >
                     {{ $date->day }}
                     @foreach ($plans as $plan)

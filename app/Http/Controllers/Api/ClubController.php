@@ -79,7 +79,7 @@ class ClubController extends Controller
         $userRole->club_role_id = $clubRoleAdmin->id;
         $userRole->save();
         // 登録後のデータを返す(idが追加される)
-        $item = ["club" => $club, "role" => $clubRoleAdmin];
+        $item = collect(["club" => $club, "role" => $clubRoleAdmin]);
         return $item;
     }
 
@@ -93,7 +93,7 @@ class ClubController extends Controller
     {
         $club = Club::find($id);
         $plans = Plan::where('club_id', $id)->get();
-        $item = ["club" => $club, "plan" => $plans, "user" => $request->user()];
+        $item = collect(["club" => $club, "plan" => $plans, "user" => $request->user()]);
         return $item;
     }
 
@@ -107,7 +107,7 @@ class ClubController extends Controller
     public function update(Request $request, $id)
     {
         if ($request->password != $request->confirm) {
-            return $message = ["message" => "パスワードと確認が一致しません"];
+            return $message = collect(["message" => "パスワードと確認が一致しません"]);
         }
 
         $user = $request->user();
@@ -118,7 +118,7 @@ class ClubController extends Controller
                         ->where('club_role_id', $clubRole->id)->first();
 
         if(empty($userRole)) {
-            return $message = ["message" => "管理者以外は編集できません"];
+            return $message = collect(["message" => "管理者以外は編集できません"]);
         }
 
         // 値の用意
@@ -130,7 +130,7 @@ class ClubController extends Controller
         $club->save();
 
         // 登録後のデータを返す(idが追加される)
-        $item = ["club" => $club];
+        $item = collect(["club" => $club]);
         return $item;
     }
 
@@ -199,7 +199,7 @@ class ClubController extends Controller
 
             $userRole->save();
 
-            $message = ["message" => "参加を申請しました"];
+            $message = collect(["message" => "参加を申請しました"]);
             return $message;
         }
     }

@@ -64,7 +64,7 @@ class ThreadController extends Controller
         $thread->save();
 
         $threads = Thread::where('plan_id', $planId)->get();
-        return $items = ["plan" => $plan, "threads" => $threads];
+        return $items = collect(["threads" => $threads]);
     }
 
     /**
