@@ -17,7 +17,7 @@ class UserRoleFactory extends Factory
     {
         return [
             'user_id' => User::inRandomOrder()->first(),
-            'club_role_id' => 2,
+            'club_role_id' => 15,
 
         ];
     }

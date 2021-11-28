@@ -49,12 +49,12 @@ class ThreadController extends Controller
         }
 
         if ($isMember == false)  {
-            return $message = ["message" => "投稿権限がありません"];
+            return $message = collect(["message" => "投稿権限がありません"]);
         }
 
-        if ($request->body == null && $request->file == null) {
-            return $message = ["message" => "本文と画像どちらかは送信してください"];
-        }
+        // if ($request->body == null && $request->file == null) {
+        //     return $message = (["message" => "本文と画像どちらかは送信してください"]);
+        // }
         $plan = Plan::find($planId);
         $thread = new Thread();
         $thread->plan_id = $plan->id;
@@ -62,9 +62,9 @@ class ThreadController extends Controller
         $thread->body = $request->body;
         $thread->file = $request->file;
         $thread->save();
-
-        $threads = Thread::where('plan_id', $planId)->get();
-        return $items = collect(["threads" => $threads]);
+        $items = collect();
+        $items->push(["thread" => $thread, "user" => $user]);
+        return $items;
     }
 
     /**

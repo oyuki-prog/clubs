@@ -56,19 +56,20 @@ class PlanController extends Controller
                 continue;
             }
             $disclosureRanges = DisclosureRange::where('plan_id', $plan->id)->get();
-            if ($disclosureRanges->count() == 0 || $isAdmin != true) {
-                $items->push(["plan" => ["id" => $plan->id, "club_id" => $id, "name" => $isAdmin, "meeting_time" => $plan->meeting_time, "dissolution_time" => $plan->dissolution_time] ,"can" => false]);
-                continue;
-            } else {
+            if ($disclosureRanges->count() != 0) {
                 foreach ($disclosureRanges as $disclosureRange) {
                     if ($disclosureRange->club_role_id == $clubRoleId || $isAdmin == true) {
-                        // if ($this->year($plan->meeting_time) == $year && $this->month($plan->meeting_time) == $month) {
                             $items->push(["plan" => $plan, "can" => true]);
-                            // }
-                        } else {
+                    } else {
                             $items->push(["plan" => ["id" => $plan->id, "club_id" => $id, "name" => "予定あり", "meeting_time" => $plan->meeting_time, "dissolution_time" => $plan->dissolution_time], "can" => false]);
-                        }
                     }
+                }
+            } else {
+                if ($isAdmin == true) {
+                    $items->push(["plan" => $plan, "can" => true]);
+                } else {
+                    $items->push(["plan" => ["id" => $plan->id, "club_id" => $id, "name" => "予定あり", "meeting_time" => $plan->meeting_time, "dissolution_time" => $plan->dissolution_time], "can" => false]);
+                }
             }
         }
         return $items;

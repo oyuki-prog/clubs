@@ -16,7 +16,7 @@
                         <input class="w-full rounded lg:block" type="date" name="meeting_date" id="meeting_date" required
                             value="{{ old('meeting_date') }}">
                     </div>
-                    <div class="mb-4 lg:flex w-1/3 lg:items-center lg:mb-12">
+                    <div class="ml-2 mb-4 lg:flex w-1/3 lg:items-center lg:mb-12">
                         <label for="meeting_time" class="lg:w-1/4 lg:block lg:text-left">集合時刻</label>
                         <input class="w-full rounded lg:block" type="time" name="meeting_time" id="meeting_time"
                             required value="{{ old('meeting_time') }}">
@@ -28,7 +28,7 @@
                         <input class="w-full rounded lg:block" type="date" name="dissolution_date" id="dissolution_date"
                             required value="{{ old('dissolution_date') }}">
                     </div>
-                    <div class="mb-4 lg:flexw-1/3 lg:items-center lg:mb-12">
+                    <div class="ml-2 mb-4 lg:flex w-1/3 lg:items-center lg:mb-12">
                         <label for="dissolution_time" class="lg:w-1/4 lg:block lg:text-left">解散時刻</label>
                         <input class="w-full rounded lg:block" type="time" name="dissolution_time" id="dissolution_time"
                             required value="{{ old('dissolution_time') }}">

@@ -89,7 +89,7 @@ Authorization: Bearer 5|IjZiocH38QXcjurAYMRJiSh0E4RKAUzkbHFIYXb0
 ###
 
 # clubs plans index
-GET /api/clubs/4/2021/11
+GET /api/clubs/3/2021/11
 Host: localhost
 Content-Type: application/json
 Authorization: Bearer 26|eywgwJ356yV8mSDr5u1FDDCt482QrfUlF3IDgTw8
@@ -104,9 +104,9 @@ Authorization: Bearer 26|eywgwJ356yV8mSDr5u1FDDCt482QrfUlF3IDgTw8
 
 
 {
-    "name" : "apistore",
-    "meeting_time" : "2021-11-22 10:00:00",
-    "dissolution_time" : "2021-11-22 15:00:00",
+    "name" : "大丈夫か",
+    "meeting_time" : "2021-11-03 10:00:00",
+    "dissolution_time" : "2021-11-03 15:00:00",
     "place" : "ここ",
     "remarks" : "備考は備考だ",
     "public" : {
@@ -115,7 +115,7 @@ Authorization: Bearer 26|eywgwJ356yV8mSDr5u1FDDCt482QrfUlF3IDgTw8
 }
 
 ###
-
+#clubs plans show
 GET /api/clubs/4/plans/13
 Host: localhost
 Content-Type: application/json
@@ -124,13 +124,14 @@ Authorization: Bearer 26|eywgwJ356yV8mSDr5u1FDDCt482QrfUlF3IDgTw8
 ###
 
 #clubs plans threads store
-POST /api/clubs/3/plans/8/threads
+POST /api/clubs/4/plans/13/threads
 Host: localhost
 Content-Type: application/json
-Authorization: Bearer 9|jTM0OwjkdnpCDKDOH41OplgvhJoXstF7pjoWpkbz
+Authorization: Bearer 26|eywgwJ356yV8mSDr5u1FDDCt482QrfUlF3IDgTw8
+
 
 {
-    "body" : "でもリアルタイム更新じゃないんだよね"
+    "body" : "でもリアルタイム更新じゃないん"
 }
 
 ###
